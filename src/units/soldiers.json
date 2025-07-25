@@ -1,0 +1,101 @@
+{
+    "mc_unarmored": {
+        "actions": {}
+    },
+    "mc_armored": {
+        "actions": {
+            "idle": {
+                "num_frames": 1,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 61
+            },
+            "hit_right": {
+                "num_frames": 6,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 63
+            },
+            "hit_left": {
+                "num_frames": 6,
+                "frame_width": 192,
+                "frame_height": 128,
+                "row": 65
+            }
+        },
+        "attack_damage": 50
+    },
+    "sword": {
+        "actions": {
+            "idle": {
+                "num_frames": 1,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 61
+            },
+            "hit_right": {
+                "num_frames": 6,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 63
+            },
+            "hit_left": {
+                "num_frames": 6,
+                "frame_width": 192,
+                "frame_height": 129,
+                "row": 65
+            }
+        },
+        "attack_damage": 20
+    },
+    "spear": {
+        "actions": {}
+    },
+    "archer": {
+        "actions": {}
+    },
+    "knight": {
+        "actions": {
+            "idle": {
+                "num_frames": 1,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 61
+            },
+            "hit_right": {
+                "num_frames": 6,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 64
+            },
+            "hit_left": {
+                "num_frames": 6,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 58
+            }
+        },
+        "attack_damage": 20
+    },
+    "ambush_archer": {
+        "actions": {}
+    },
+    "ambush_sword": {
+        "actions": {}
+    },
+    "ambush_dagger": {
+        "actions": {}
+    },
+    "flail": {
+        "actions": {}
+    },
+    "axe": {
+        "actions": {}
+    },
+    "mace": {
+        "actions": {}  
+    },
+    "halberd": {
+        "actions": {}
+    }
+}

@@ -1,0 +1,156 @@
+body/bodies/muscular/light.png
+	- Note: see details at https://opengameart.org/content/lpc-character-bases
+	- Licenses:
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- bluecarrot16
+		- JaidynReiman
+		- Evert
+		- TheraHedwig
+		- MuffinElZangano
+		- Durrani
+		- Sander Frenken (castelonia)
+		- Benjamin K. Smith (BenCreating)
+		- Eliza Wyatt (ElizaWy)
+		- dalonedrau
+		- Stephen Challener (Redshrike)
+	- Links:
+		- https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+		- https://opengameart.org/content/lpc-barbarian-sprite-base
+		- https://opengameart.org/content/lpc-muscular-swing-animation
+		- https://opengameart.org/content/lpc-muscular-hurt-animation
+		- https://opengameart.org/content/lpc-jump-expanded
+		- https://opengameart.org/content/lpc-revised-character-basics
+		- https://opengameart.org/content/lpc-be-seated
+		- https://opengameart.org/content/lpc-jump-expanded
+		- https://opengameart.org/content/lpc-character-bases
+		- https://opengameart.org/content/lpc-male-jumping-animation-by-durrani
+
+head/heads/human/male/light.png
+	- Note: original head by Redshrike, tweaks by BenCreating, modular version by bluecarrot16
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- bluecarrot16
+		- Benjamin K. Smith (BenCreating)
+		- Stephen Challener (Redshrike)
+	- Links:
+		- https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+		- https://opengameart.org/content/lpc-character-bases
+
+beards/beard/winter/male/dark_brown.png
+	- Note: 
+	- Licenses:
+		- CC0
+	- Authors:
+		- bluecarrot16
+	- Links:
+		- https://opengameart.org/content/lpc-santa
+
+hat/helmet/spangenhelm_viking/adult/steel.png
+	- Note: 
+	- Licenses:
+		- CC-BY 3.0
+		- CC-BY 4.0
+		- OGA-BY 3.0
+		- GPL 2.0
+		- GPL 3.0
+	- Authors:
+		- bluecarrot16
+	- Links:
+		- https://opengameart.org/content/lpc-helmets
+		- https://opengameart.org/content/lpc-expanded-hats-facial-helmets
+
+legs/pants/muscular/leather.png
+	- Note: original muscular pants by ElizaWy, muscular by dalonedrau, cast and thrust frames by JaidynReiman
+	- Licenses:
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- ElizaWy
+		- JaidynReiman
+		- dalonedrau
+		- Johannes Sjölund (wulax)
+		- Stephen Challener (Redshrike)
+	- Links:
+		- https://opengameart.org/content/lpc-muscular-pants
+		- https://opengameart.org/content/lpc-muscular-swing-animation
+		- https://opengameart.org/content/lpc-muscular-hurt-animation
+
+feet/boots/basic/male/leather.png
+	- Note: original by Nila122, edited for male and v3 bases by bluecarrot16, Jump/Sit/Emote/Run/Revised Combat by JaidynReiman
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY-SA 3.0
+		- GPL 2.0
+		- GPL 3.0
+	- Authors:
+		- JaidynReiman
+		- bluecarrot16
+		- Nila122
+	- Links:
+		- https://opengameart.org/content/lpc-clothes-and-hair
+		- https://opengameart.org/content/lpc-expanded-socks-shoes
+
+weapon/ranged/bow/arrow/arrow.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- Johannes Sjölund (wulax)
+	- Links:
+		- https://opengameart.org/content/lpc-medieval-fantasy-character-sprites
+
+weapon/blunt/flail/behind/flail.png
+	- Note: 
+	- Licenses:
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- Benjamin K. Smith (BenCreating)
+		- bluecarrot16
+		- Sander Frenken (castelonia)
+	- Links:
+		- https://opengameart.org/content/lpc-medieval-weapons
+
+weapon/blunt/flail/flail.png
+	- Note: 
+	- Licenses:
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- Benjamin K. Smith (BenCreating)
+		- bluecarrot16
+		- Sander Frenken (castelonia)
+	- Links:
+		- https://opengameart.org/content/lpc-medieval-weapons
+
+weapon/blunt/flail/attack_slash/behind/flail.png
+	- Note: 
+	- Licenses:
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- Benjamin K. Smith (BenCreating)
+		- bluecarrot16
+		- Sander Frenken (castelonia)
+	- Links:
+		- https://opengameart.org/content/lpc-medieval-weapons
+
+weapon/blunt/flail/attack_slash/flail.png
+	- Note: 
+	- Licenses:
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- Benjamin K. Smith (BenCreating)
+		- bluecarrot16
+		- Sander Frenken (castelonia)
+	- Links:
+		- https://opengameart.org/content/lpc-medieval-weapons
+
