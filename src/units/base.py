@@ -3,7 +3,14 @@ import os
 
 import pygame
 
-from src.constants import ROW_HEIGHT, IDEAL_SPRITE_HEIGHT, SPRITE_VERTICAL_LOCATION, IDEAL_SPRITE_WIDTH, UNIT_PATH
+from src.constants import (
+    IDEAL_SPRITE_HEIGHT,
+    IDEAL_SPRITE_WIDTH,
+    ROW_HEIGHT,
+    SPRITE_VERTICAL_LOCATION,
+    UNIT_PATH,
+)
+
 
 class BaseUnit: 
     _default_sheet_locations = {
@@ -57,7 +64,7 @@ class BaseUnit:
 
     _frames = {}  # Dictionary of frames for each action for each soldier type and color
 
-    _unique_blue_units = ["ambush_archer", "ambush_sword", "ambush_dagger", "flail", "axe"]
+    _unique_blue_units = ["ambush_archer", "ambush_sword", "ambush_dagger", "flail", "axe", "peasant"]
 
     def __init__(self, unit_type, color):
         self.unit_type = unit_type
@@ -167,7 +174,6 @@ class BaseUnit:
     def _draw(self, screen, camera):
         current_frames = self.get_frames(self.unit_type, self.color, self.current_action)
 
-        # why does this work? I have no fucking idea: 
         top_left = (self.location[0] - camera.offset - self.current_sprite_dimensions[0] / 2, self.location[1] - 128)
         screen.blit(current_frames[self.frame_index], top_left)
 

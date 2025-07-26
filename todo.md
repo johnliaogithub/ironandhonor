@@ -9,3 +9,6 @@ functional:
  - prevent character from leaving when not desired
  - health of player is not presevered
  - draw dead troops behind
+ - error when hit right on unarmored
+ - add healing to mc
+ - health bar not good

@@ -5,7 +5,7 @@ from src.generators.army_generator import generate_random_army
 from src.generators.scene_army_generators import CampArmyGenerator
 from src.scenes.base import BattleScene, StoryScene, UIScene
 from src.scenes.interactions import _guard_interaction
-from src.scenes.scenes import CampBattleScene, ForestBattleScene
+from src.scenes.scenes import CampBattleScene, ForestBattleScene, FieldBattleScene
 from src.units.base import BaseUnit
 from src.units.player import Player
 from src.units.soldier import Soldier
@@ -28,7 +28,8 @@ def load_scenes() -> UIScene:
 
     # campscene2 = CampBattleScene()
     # campscene2.next_scene = forestscene
-    forestscene = ForestBattleScene()
+    # forestscene = ForestBattleScene()
+    field_scene = FieldBattleScene()
     # campscene = BattleScene(
     #     background_images=[os.path.join(BACKGROUND_PATH, "camp", "camp1.png"), os.path.join(BACKGROUND_PATH, "camp", "camp1.png"), os.path.join(BACKGROUND_PATH, "camp", "camp2.png")],
     #     next_scene=campscene2,
@@ -44,5 +45,5 @@ def load_scenes() -> UIScene:
         }], text_elements=[
             {"text": "Welcome to Iron and Honor!", "position": (100, 50)}
         # ], next_scene=introscene)
-        ], next_scene=forestscene)
+        ], next_scene=field_scene)
     return startscene

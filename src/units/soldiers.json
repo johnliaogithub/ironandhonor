@@ -104,13 +104,67 @@
         "attack_damage": 15
     },
     "ambush_archer": {
-        "actions": {}
+        "actions": {
+            "walk_left": {
+                "num_frames": 9,
+                "frame_width": 128,
+                "frame_height": 128,
+                "row": 56.5
+            },
+            "walk_right": {
+                "num_frames": 9,
+                "frame_width": 128,
+                "frame_height": 128,
+                "row": 60.5
+            },
+            "hit_left": {
+                "num_frames": 13,
+                "frame_width": 64,
+                "frame_height": 64,
+                "row": 17
+            },
+            "hit_right": {
+                "num_frames": 13,
+                "frame_width": 64,
+                "frame_height": 64,
+                "row": 19
+            }
+        },
+        "attack_damage": 5
     },
     "ambush_sword": {
-        "actions": {}
+        "actions": {
+            "hit_left": {
+                "num_frames": 6,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 58
+            },
+            "hit_right": {
+                "num_frames": 6,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 64
+            }
+        },
+        "attack_damage": 10
     },
     "ambush_dagger": {
-        "actions": {}
+        "actions": {
+            "hit_left": {
+                "num_frames": 6,
+                "frame_width": 64,
+                "frame_height": 64,
+                "row": 13
+            },
+            "hit_right": {
+                "num_frames": 6,
+                "frame_width": 64,
+                "frame_height": 64,
+                "row": 15
+            }
+        },
+        "attack_damage": 5
     },
     "flail": {
         "actions": {}
@@ -122,6 +176,49 @@
         "actions": {}  
     },
     "halberd": {
-        "actions": {}
+        "actions": {
+            "idle": {
+                "num_frames": 1,
+                "frame_width": 64,
+                "frame_height": 64,
+                "row": 10
+            },
+            "hit_right": {
+                "num_frames": 6,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 64
+            },
+            "hit_left": {
+                "num_frames": 6,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 58
+            }
+        },
+        "attack_damage": 20
+    },
+    "peasant": {
+        "actions": {
+            "idle": {
+                "num_frames": 1,
+                "frame_width": 64,
+                "frame_height": 64,
+                "row": 6
+            },
+            "hit_right": {
+                "num_frames": 8,
+                "frame_width": 64,
+                "frame_height": 64,
+                "row": 7
+            },
+            "hit_left": {
+                "num_frames": 8,
+                "frame_width": 64,
+                "frame_height": 64,
+                "row": 5
+            }
+        },
+        "attack_damage": 0
     }
 }

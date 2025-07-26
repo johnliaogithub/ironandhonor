@@ -3,7 +3,10 @@ import os
 
 from src.constants import BACKGROUND_PATH, SPRITE_VERTICAL_LOCATION
 from src.generators.army_generator import forest_march_generator, generate_random_army
-from src.generators.scene_army_generators import CampArmyGenerator
+from src.generators.scene_army_generators import (
+    CampArmyGenerator,
+    ForestAmbushGenerator,
+)
 from src.scenes.base import BattleScene
 from src.units.player import Player
 from src.units.soldier import Soldier
@@ -62,6 +65,12 @@ class ForestBattleScene(BattleScene):
 
         # First part of the scene
         self.marching = True
+        
+        # End of the scene
+        self.delay = 2
+        self.finish_time = None
+        self.new_instructions = {"name": "Commander", "text": ["Many of our soldiers have been killed, but we cannot stop now..."]}
+        self.ready_for_next_scene = False
 
     def custom_post_loop(self, actions, dt):
         if self.marching: 
@@ -82,8 +91,58 @@ class ForestBattleScene(BattleScene):
                 self.units.remove(self.dummy_soldier)
 
                 # begin ambush
-                self.generator = ForestAmbushGenerator()
+                self.generator = ForestAmbushGenerator(dt)
         
-        
-        
-        
+        else: 
+            # ambush
+            for soldier in self.units:
+                if not soldier.active and not soldier.dead:
+                    # make soldier fall
+
+                    # fall speed is inversely proportional to distance from enemy
+                    fall_speed = 10 + soldier.location[1] / 20
+                    soldier.location = (soldier.location[0], soldier.location[1] + fall_speed)
+
+                    if soldier.location[1] >= SPRITE_VERTICAL_LOCATION:
+                        soldier.active = True
+                        soldier.location = (soldier.location[0], SPRITE_VERTICAL_LOCATION)
+
+            # Scene completion
+            if self.generator.done and self.number_of_enemies() == 0:
+                # fight complete
+                if self.finish_time is None:
+                    self.finish_time = dt
+                elif self.ready_for_next_scene:
+                    self.scene_complete = True
+                elif dt - self.finish_time >= self.delay:
+                    self.on_interaction = True
+                    self.instructions = self.new_instructions
+                    self.ready_for_next_scene = True
+
+class FieldBattleScene(BattleScene):
+    def __init__(self):
+        super().__init__(
+            background_images=[os.path.join(BACKGROUND_PATH, "castlefront", "castlefront{}.png".format(i + 1)) for i in range(3)],
+            next_scene=None,
+            units=[*generate_random_army("red", 4, "red_army", -500), *generate_random_army("blue", 15, "field", location_range=(500, 2500))],
+            player=Player("mc_armored", location=(0, SPRITE_VERTICAL_LOCATION)),
+            on_interaction=True,
+            instructions={"name": "Commander", "text": ["Kill their peasants!"]}
+        )
+
+        self.delay = 2
+        self.finish_time = None
+        self.new_instructions = {"name": "Commander", "text": ["Good work. Our fallen soldiers are avenged!"]}
+        self.ready_for_next_scene = False
+
+    def custom_post_loop(self, actions, dt):
+        if self.number_of_enemies() == 0:
+            # fight complete
+            if self.finish_time is None:
+                self.finish_time = dt
+            elif self.ready_for_next_scene:
+                self.scene_complete = True
+            elif dt - self.finish_time >= self.delay:
+                self.on_interaction = True
+                self.instructions = self.new_instructions
+                self.ready_for_next_scene = True

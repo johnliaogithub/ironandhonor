@@ -48,7 +48,7 @@ class Soldier (BaseUnit):
 
     def draw(self, screen, camera):
         self._draw(screen, camera)
-
+        
         # For interact hover dialogue
         if self.e_hover: 
             text_position = (self.location[0], self.location[1] - 132)
@@ -91,6 +91,10 @@ class Soldier (BaseUnit):
 
         if self.attack_cooldown_timer > 0:
             self.attack_cooldown_timer -= 1
+            return
+
+        # for peasant, only approach if close enough
+        if self.unit_type == "peasant" and abs(self.location[0] - closest_enemy.location[0]) > 2 * IDEAL_SPRITE_WIDTH:
             return
 
         # if not close enough to enemy, move towards closest enemy

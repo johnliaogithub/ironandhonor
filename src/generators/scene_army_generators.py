@@ -1,6 +1,9 @@
 
 # --- Specialized army generators for scenes ---
 
+import random
+
+from src.constants import SPRITE_VERTICAL_LOCATION
 from src.generators.army_generator import generate_random_army
 
 
@@ -60,13 +63,25 @@ class CampArmyGenerator():
         return result
 
 class ForestAmbushGenerator():
-    def __init__(self):
-        self.blue_generator = BasicArmyGenerator(color="blue", num_soldiers=3, difficulty="camp", interval=5, num_armies=5, base_location=2500)
+    def __init__(self, dt):
+        self.blue_generator1 = BasicArmyGenerator(color="blue", num_soldiers=3, difficulty="forest", interval=10, num_armies=6, base_location=2500)
+        self.blue_generator2 = BasicArmyGenerator(color="blue", num_soldiers=4, difficulty="forest", interval=10, num_armies=6, base_location=2500, time_offset=5)
         self.done = False
 
     def __call__(self, dt):
-        result = [*self.blue_generator(dt)]
-        if self.blue_generator.done:
+        # spawn soldiers in air as inactive and distribute them across the forest
+        result1 = [*self.blue_generator1(dt)]
+        for soldier in result1:
+            soldier.active = False
+            soldier.location = (random.randint(200, 1400), 200)
+
+        # spawn soldiers at left and right of forest
+        result2 = [*self.blue_generator2(dt)]
+        for i, soldier in enumerate(result2):
+            soldier.active = False
+            soldier.location = (random.randint(*[-200, 0] if i > 1 else [1600, 1800]), SPRITE_VERTICAL_LOCATION)
+
+        if self.blue_generator1.done and self.blue_generator2.done:
             self.done = True
 
-        return result
+        return [*result1, *result2]
