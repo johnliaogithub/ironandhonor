@@ -1,8 +1,5 @@
-from enum import Enum
-import string
-
 from src.constants import IDEAL_SPRITE_WIDTH, SPRITE_VERTICAL_LOCATION
-from src.ui.text import draw_text, draw_text_centered
+from src.ui.text import draw_text_centered
 from src.units.base import BaseUnit
 
 # class Team(Enum): 
@@ -22,7 +19,7 @@ from src.units.base import BaseUnit
 
 class Soldier (BaseUnit):
 
-    def __init__(self, color: string = "red", active: bool = True, soldier_type = "knight", location=(1000, SPRITE_VERTICAL_LOCATION), interaction=None):
+    def __init__(self, color: str = "red", active: bool = True, soldier_type = "knight", location: tuple[int, int]=(1000, SPRITE_VERTICAL_LOCATION), interaction=None):
         """
         Soldier class for the npcs in the game.
         interaction: function to call when interacting with the unit
@@ -39,10 +36,12 @@ class Soldier (BaseUnit):
         self.e_hover = False
 
         # Attacking mechanics, might need to move some of these to base
-        self.attacking = False
-        self.attack_damage = self._unit_data[self.unit_type]["attack_damage"]
         self.attack_cooldown = 5
         self.attack_cooldown_timer = 0
+
+        # Death mechanics
+        self.dead = False
+        self.dead_timer = 50        # How long before unit disappears
     
     def animate(self, action): 
         self._animate(action)
@@ -59,9 +58,8 @@ class Soldier (BaseUnit):
         closest_enemy = None
         for unit in units:
             if unit.active and unit.color != self.color:
-                if closest_enemy is None or unit.location[0] - self.location[0] < closest_enemy.location[0] - self.location[0]:
+                if closest_enemy is None or abs(unit.location[0] - self.location[0]) < abs(closest_enemy.location[0] - self.location[0]):
                     closest_enemy = unit
-                    break
 
         return closest_enemy
 
@@ -69,11 +67,12 @@ class Soldier (BaseUnit):
         """Attack the nearest enemy if possible."""
         # find closest enemy
         closest_enemy = self.closest_enemy([*units, player])
-        if closest_enemy == None: 
+        if closest_enemy is None: 
+            self.animate("idle")
             return
 
         # if attacking (no matter if it's in range or not), complete attack animation
-        if self.attacking == True:
+        if self.attacking:
             progress = self.animation_progress()
 
             # check if animation is at middle. deduct hp if enemy is still in range
@@ -81,7 +80,7 @@ class Soldier (BaseUnit):
                 if abs(self.location[0] - closest_enemy.location[0]) <= IDEAL_SPRITE_WIDTH // 2:
                     closest_enemy.health -= self.attack_damage
 
-            # check if animation is readed end. allow attack again if ended
+            # check if animation is reached end. allow attack again if ended
             if progress[0] == progress[1] - 1: 
                 self.attacking = False
 
@@ -109,6 +108,21 @@ class Soldier (BaseUnit):
             else: 
                 self.animate("hit_left")
 
+    def init_die(self):
+        self.dead = True
+        self.animate("dying")
+    
+    def loop_die(self)->bool:
+        if self.current_action == "dying" and self.animation_progress()[0] == self.animation_progress()[1] - 1:
+            self.animate("dead")
+
+        if self.current_action == "dead":
+            self.dead_timer -= 1
+
+            if self.dead_timer <= 0:
+                return True
+        
+        return False
     
     def interact(self, scene, target, unit):
         if self.interaction:

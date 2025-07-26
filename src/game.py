@@ -1,6 +1,8 @@
 import pygame
+
 from src.constants import SCREEN_HEIGHT, SCREEN_WIDTH
-from src.scenes.scenes import load_scenes
+from src.scenes.scene_list import load_scenes
+
 
 class Game: 
 
@@ -17,9 +19,13 @@ class Game:
 
     def run(self): 
         """Start the game loop."""
-        clock = pygame.time.Clock()
+        initital_time = pygame.time.get_ticks()
 
         while True: 
+            # record time
+            elapsed_time = pygame.time.get_ticks() - initital_time
+            dt = elapsed_time / 1000
+
             # --- Recieve actions ---
             actions = []
             for event in pygame.event.get():
@@ -47,7 +53,7 @@ class Game:
                 actions.append("e")
 
             # --- Process actions ---
-            if self.current_scene.action(actions): 
+            if self.current_scene._loop(actions, dt): 
                 self.current_scene = self.current_scene.next_scene
                 continue # continue to next scene
 
@@ -58,4 +64,4 @@ class Game:
             # --- Update game state ---
             pygame.display.flip()
 
-            clock.tick(20)
+            self.clock.tick(20)

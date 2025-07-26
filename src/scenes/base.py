@@ -1,5 +1,4 @@
 import pygame
-from traitlets import Type, List
 
 from src.constants import IDEAL_SPRITE_WIDTH, SCREEN_HEIGHT
 from src.scenes.camera import Camera
@@ -7,9 +6,16 @@ from src.ui.button import draw_button
 from src.ui.text import draw_dialogue, draw_text
 from src.units.player import Player
 
+
 class BaseScene: 
     def draw(self, screen):
         """Draw the current scene."""
+        pass
+
+    def custom_pre_loop(self, actions, dt):
+        pass
+
+    def custom_post_loop(self, actions, dt):
         pass
 
 class UIScene(BaseScene):
@@ -22,7 +28,9 @@ class UIScene(BaseScene):
         self.next_scene = next_scene
         self.button_rects = []
 
-    def action(self, actions):
+    def _loop(self, actions, dt):
+        self.custom_pre_loop(actions, dt)
+
         for action in actions:
             # determine if button was clicked
             if action[0] == "click":
@@ -31,6 +39,9 @@ class UIScene(BaseScene):
                     if button.collidepoint(pos):
                         # placeholder, transition to next scene
                         return True
+                    
+        self.custom_post_loop(actions, dt)
+
         return False
     
     def draw(self, screen):
@@ -58,16 +69,19 @@ class StoryScene(BaseScene):
         self.next_scene = next_scene
         self.progression = 0  # Current panel index in the dialogue or cutscene
 
-    def action(self, actions):
+    def _loop(self, actions, dt):
         """Process actions for the current scene.
         Returns True if the scene should transition to the next scene, False otherwise.
         """
+        self.custom_pre_loop(actions, dt)
 
         for action in actions:
             if action == "enter":
                 self.progression += 1
                 if self.progression >= len(self.dialogue):
                     return True
+        
+        self.custom_post_loop(actions, dt)
                 
         return False
 
@@ -90,12 +104,12 @@ class StoryScene(BaseScene):
 
 class BattleScene(BaseScene):
     """Base class for battle scenes, which may include combat mechanics and unit management."""
-    def __init__(self, background_images=None, units=None, interactive_objects=None, next_scene=None, player=None, on_interaction=False, instructions=None):
+    def __init__(self, background_images=None, units=None, interactive_objects=None, next_scene=None, player=None, on_interaction=False, instructions=None, generator=None):
         self.background_images = background_images if background_images else []
         self.next_scene = next_scene
 
         # Placeholder for initiation logic
-        self.player = player
+        self.player: Player = player if player else Player()
         self.units = units if units else []  # Placeholder for units involved in the battle
         self.interactive_objects = interactive_objects if interactive_objects else []
         self.camera = Camera(self.player, len(self.background_images) * SCREEN_HEIGHT)  # Assumes all background images are squares
@@ -108,9 +122,14 @@ class BattleScene(BaseScene):
 
         self.scene_complete = False
 
-    def action(self, mc_actions):
+        # for army generation
+        self.generator = generator
+
+    def _loop(self, mc_actions, dt):
+        self.custom_pre_loop(mc_actions, dt)
+
         if self.player.health <= 0:
-            from src.scenes.scenes import death_scene
+            from src.scenes.scene_list import death_scene
             self.next_scene = death_scene
             return True
 
@@ -122,21 +141,24 @@ class BattleScene(BaseScene):
 
         # Process actions for the current scene
         e_pressed = False
-        attacking = False
-        for action in mc_actions:
-            if action == "left":
-                self.player.location = (self.player.location[0] - 10, self.player.location[1])
-                self.player.act("walk_left")
-            elif action == "right":
-                self.player.location = (self.player.location[0] + 10, self.player.location[1])
-                self.player.act("walk_right")
-            elif action == "idle": 
-                self.player.act("idle")
-            elif action == "space":
-                # Placeholder for space action, e.g., attack or interact
-                pass
-            elif action == "e":
-                e_pressed = True
+        
+        if not self.player.attacking:
+            for action in mc_actions:
+                if action == "left":
+                    self.player.location = (self.player.location[0] - 10, self.player.location[1])
+                    self.player.act("walk_left")
+                elif action == "right":
+                    self.player.location = (self.player.location[0] + 10, self.player.location[1])
+                    self.player.act("walk_right")
+                elif action == "idle": 
+                    self.player.act("idle")
+                elif action == "space":
+                    self.player.attack(self.units)
+                elif action == "e":
+                    e_pressed = True
+
+        else: 
+            self.player.attack(self.units) # TODO: kind of sketchy, try to fix
 
         # Process other interactions and decisions
         # Deal with interactive units
@@ -144,19 +166,25 @@ class BattleScene(BaseScene):
             if unit.active:
                 unit.attack_nearest_enemy(self.units, self.player)
 
-        # Deal with non-interactive units
-        for unit in self.units:
+        for unit in self.units: # determine if unit is dead
+            # kill if unit is dead
+            if unit.active and unit.health <= 0:
+                unit.active = False
+                unit.init_die()
+
+        for unit in self.units[:]:  # iterate over a copy
             if not unit.active:
-                # check if unit is in range and interact
-                if unit.location[0] - IDEAL_SPRITE_WIDTH // 2 < self.player.location[0] < unit.location[0] + IDEAL_SPRITE_WIDTH // 2:
-                    # display e button
-                    unit.e_hover = True
+                if unit.interaction: 
+                    if unit.location[0] - IDEAL_SPRITE_WIDTH // 2 < self.player.location[0] < unit.location[0] + IDEAL_SPRITE_WIDTH // 2:
+                        unit.e_hover = True
+                        if e_pressed:
+                            unit.interact(self, self.player, unit)
+                    else:
+                        unit.e_hover = False
 
-                    if e_pressed:
-                        unit.interact(self, self.player, unit)
-
-                else: 
-                    unit.e_hover = False
+                if unit.dead:
+                    if unit.loop_die():
+                        self.units.remove(unit)
 
         # Deal with interactive objects
         for _object in self.interactive_objects:
@@ -173,6 +201,13 @@ class BattleScene(BaseScene):
 
         # Update camera
         self.camera.update()
+
+
+        # Generate army if needed
+        if self.generator:
+            self.units.extend(self.generator(dt))
+        
+        self.custom_post_loop(mc_actions, dt)
 
         return self.scene_complete
 
@@ -199,6 +234,9 @@ class BattleScene(BaseScene):
         pygame.draw.rect(screen, background_color, (x, y, width, height), border_radius=border_radius)
         pygame.draw.rect(screen, health_color, (x, y, health_width, height), border_radius=border_radius)
         pygame.draw.rect(screen, border_color, (x, y, width, height), width=2, border_radius=border_radius)
+
+    def number_of_enemies(self):
+        return len([unit for unit in self.units if unit.active and unit.color != self.player.color])
 
     def draw(self, screen):
         """Draw background images left to right, scaled to screen height."""

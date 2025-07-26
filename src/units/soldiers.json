@@ -1,6 +1,8 @@
 {
     "mc_unarmored": {
-        "actions": {}
+        "actions": {
+        },
+        "attack_damage": 0
     },
     "mc_armored": {
         "actions": {
@@ -14,16 +16,20 @@
                 "num_frames": 6,
                 "frame_width": 192,
                 "frame_height": 192,
-                "row": 63
+                "row": 64
             },
             "hit_left": {
                 "num_frames": 6,
                 "frame_width": 192,
-                "frame_height": 128,
-                "row": 65
+                "frame_height": 192,
+                "row": 58
             }
         },
-        "attack_damage": 50
+        "attack_damage": 25,
+        "attacks": [
+            "up_hit",
+            "down_hit"
+        ]
     },
     "sword": {
         "actions": {
@@ -37,19 +43,39 @@
                 "num_frames": 6,
                 "frame_width": 192,
                 "frame_height": 192,
-                "row": 63
+                "row": 64
             },
             "hit_left": {
                 "num_frames": 6,
                 "frame_width": 192,
-                "frame_height": 129,
-                "row": 65
+                "frame_height": 192,
+                "row": 58
             }
         },
-        "attack_damage": 20
+        "attack_damage": 10
     },
     "spear": {
-        "actions": {}
+        "actions": {
+            "idle": {
+                "num_frames": 1,
+                "frame_width": 64,
+                "frame_height": 64,
+                "row": 6
+            },
+            "hit_right": {
+                "num_frames": 8,
+                "frame_width": 64,
+                "frame_height": 64,
+                "row": 7
+            },
+            "hit_left": {
+                "num_frames": 8,
+                "frame_width": 64,
+                "frame_height": 64,
+                "row": 5
+            }
+        },
+        "attack_damage": 5
     },
     "archer": {
         "actions": {}
@@ -75,7 +101,7 @@
                 "row": 58
             }
         },
-        "attack_damage": 20
+        "attack_damage": 15
     },
     "ambush_archer": {
         "actions": {}

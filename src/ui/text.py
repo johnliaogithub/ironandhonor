@@ -1,9 +1,10 @@
 # UI Text Elements
 
 import os
+
 import pygame
 
-from src.constants import SCREEN_HEIGHT, SCREEN_WIDTH
+from src.constants import SCREEN_WIDTH
 
 pygame.font.init()
 
@@ -17,6 +18,8 @@ def draw_text(screen, text, position, font=DEFAULT_TEXT_FONT, color=DEFAULT_TEXT
     """Draw text on the screen at a specified position."""
     text_surface = font.render(text, True, color)
     screen.blit(text_surface, position)
+
+    return text_surface
 
 def draw_text_centered(screen, text, position, font=DEFAULT_TEXT_FONT, color=DEFAULT_TEXT_COLOR):
     """Draw text on the screen at a specified position, centered."""
@@ -52,8 +55,9 @@ def draw_dialogue(screen, instructions):
     create_box((SCREEN_WIDTH - 180, 100), (90, 40), screen)
 
     # Draw red text for instructions.name and black text for instructions.text
-    draw_text(screen, f"{instructions['name']}:", (100, 50), color=RED)
+    speaker = draw_text(screen, f"{instructions['name']}:", (100, 50), color=RED)
 
-    # Definitely going to need to change this
+    x_position = speaker.get_width() + 110
+
     for i, text in enumerate(instructions["text"]):
-        draw_text(screen, text, (200, 50 + i * 25))
+        draw_text(screen, text, (x_position, 50 + i * 25))

@@ -37,18 +37,25 @@ class BaseUnit:
             "frame_height": 64,
             "row": 11
         },
-        "die": {
+        "dying": {
             "num_frames": 6,
             "frame_width": 64,
             "frame_height": 64,
             "row": 20
+        },
+        "dead": {
+            "num_frames": 1,
+            "frame_width": 64,
+            "frame_height": 64,
+            "row": 20,
+            "skip": 5
         }
     }
 
     
-    _unit_data = None
+    _unit_data = {}
 
-    _frames = None  # Dictionary of frames for each action for each soldier type and color
+    _frames = {}  # Dictionary of frames for each action for each soldier type and color
 
     _unique_blue_units = ["ambush_archer", "ambush_sword", "ambush_dagger", "flail", "axe"]
 
@@ -62,10 +69,12 @@ class BaseUnit:
         
         self.current_sprite_dimensions = (64, 64)
 
-        self.current_action = None
+        self.current_action = ""
         self._animate("idle")
 
         self.health = 100
+        self.attacking = False
+        self.attack_damage = self._unit_data[self.unit_type]["attack_damage"]
 
     def get_center_x(self):
         """Going to need to deal with color"""
@@ -88,28 +97,28 @@ class BaseUnit:
             cls._frames[unit_type] = {"red": {}, "blue": {}}
 
             blue_sheet = pygame.image.load(os.path.join(UNIT_PATH, unit_type, "blue_" + unit_type + ".png")).convert_alpha() if unit_type != "mc_unarmored" and unit_type != "mc_armored" else None
-            red_sheet = pygame.image.load(os.path.join(UNIT_PATH, unit_type, "red_" + unit_type + ".png")).convert_alpha() if not (unit_type in cls._unique_blue_units) else None
+            red_sheet = pygame.image.load(os.path.join(UNIT_PATH, unit_type, "red_" + unit_type + ".png")).convert_alpha() if unit_type not in cls._unique_blue_units else None
             for action, action_data in cls._unit_data[unit_type]["actions"].items():
                 if unit_type == "mc_unarmored" or unit_type == "mc_armored":
-                    cls._frames[unit_type]["red"][action] = cls.extract_frames_for_action(red_sheet, action_data["row"], action_data["frame_width"], action_data["frame_height"], action_data["num_frames"])
+                    cls._frames[unit_type]["red"][action] = cls.extract_frames_for_action(red_sheet, **action_data)
                     continue
 
                 # load blue
-                cls._frames[unit_type]["blue"][action] = cls.extract_frames_for_action(blue_sheet, action_data["row"], action_data["frame_width"], action_data["frame_height"], action_data["num_frames"])
+                cls._frames[unit_type]["blue"][action] = cls.extract_frames_for_action(blue_sheet, **action_data)
 
                 # load red
                 if unit_type in cls._unique_blue_units:
                     continue
-                cls._frames[unit_type]["red"][action] = cls.extract_frames_for_action(red_sheet, action_data["row"], action_data["frame_width"], action_data["frame_height"], action_data["num_frames"])
+                cls._frames[unit_type]["red"][action] = cls.extract_frames_for_action(red_sheet, **action_data)
                 
     
     @classmethod
-    def extract_frames_for_action(cls, sprite_sheet, row, frame_width, frame_height, num_frames):
+    def extract_frames_for_action(cls, sprite_sheet, row:int, frame_width:int, frame_height:int, num_frames:int, skip:int=0):
         """Extract frames for a specific action from a sprite sheet.
         Note: scaling is done in transform.scale, might need to make the code cleaner"""
         frames = []
         for i in range(num_frames):
-            frame = cls.extract_frame(sprite_sheet, i * frame_width, row * ROW_HEIGHT, frame_width, frame_height)
+            frame = cls.extract_frame(sprite_sheet, i * frame_width + skip * frame_width, row * ROW_HEIGHT, frame_width, frame_height)
             frame = pygame.transform.scale(frame, (frame_width * IDEAL_SPRITE_WIDTH / 64, frame_height * IDEAL_SPRITE_HEIGHT / 64))
             frames.append(frame)
 
