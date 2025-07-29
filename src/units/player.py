@@ -1,5 +1,5 @@
 from src.units.base import BaseUnit
-from src.constants import IDEAL_SPRITE_WIDTH, PLAYER_ATTACK_RANGE, SPRITE_VERTICAL_LOCATION
+from src.constants import PLAYER_ATTACK_RANGE, SPRITE_VERTICAL_LOCATION
 
 class Player(BaseUnit):
     """Main character class for the player unit."""
@@ -16,10 +16,15 @@ class Player(BaseUnit):
         self.attack_cooldown = 1
         self.attack_cooldown_timer = 0
 
+        self.health = 200
+
     def act(self, action): 
         self._animate(action)
 
     def attack(self, units):
+        if self.unit_type == "mc_unarmored":
+            return
+
         # find all enemies in range and direction
         enemies_in_range = []
         facing_left = self.current_action.split("_")[-1] == "left"
@@ -65,8 +70,3 @@ class Player(BaseUnit):
 
     def draw(self, screen, camera):
         self._draw(screen, camera)
-
-        # Draw health bar
-        # health_bar = pygame.Surface((100, 10))
-        # pygame.draw.rect(health_bar, (0, 0, 0), (0, 0, health_bar.get_width() * self.health / 100, health_bar.get_height()))
-        # screen.blit(health_bar, (self.location[0] - camera.offset - health_bar.get_width() / 2, self.location[1] - 128))

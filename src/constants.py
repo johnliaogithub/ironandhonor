@@ -23,3 +23,6 @@ INTERACTIVE_TEXT_Y = 400
 
 # Constants for player
 PLAYER_ATTACK_RANGE = 192  # Gives the player an advantage
+
+# Debug
+DEBUG = False

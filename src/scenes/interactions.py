@@ -1,11 +1,10 @@
-from src.scenes.base import BattleScene
 from src.units.interactives import InteractiveObject
 
 
 # --- Interactions ---
 def _guard_interaction(scene, player, unit):
     scene.on_interaction = True
-    scene.instructions = {"name": "Guard", "text": ["Return to your tent, get your armor on and we will march on the", "enemy castle by noon!"]}
+    scene.instructions = {"name": "Guard", "text": ["Return to your tent, get your armor on and we will march on the", "enemy castle by noon!   (press enter to continue)"]}
 
     # enable changing into armor
     scene.interactive_objects.append(InteractiveObject(240, _tent_interaction))

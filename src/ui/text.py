@@ -21,6 +21,11 @@ def draw_text(screen, text, position, font=DEFAULT_TEXT_FONT, color=DEFAULT_TEXT
 
     return text_surface
 
+def draw_title(screen, title, position, font=DEFAULT_TITLE_FONT, color=DEFAULT_TEXT_COLOR):
+    """Draw title on the screen at a specified position."""
+    title_surface = font.render(title, True, color)
+    screen.blit(title_surface, position)
+
 def draw_text_centered(screen, text, position, font=DEFAULT_TEXT_FONT, color=DEFAULT_TEXT_COLOR):
     """Draw text on the screen at a specified position, centered."""
     text_surface = font.render(text, True, color)

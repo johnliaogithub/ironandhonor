@@ -4,7 +4,7 @@ A 2D medieval action-adventure game built with Python and Pygame.
 
 ## 🎮 About
 
-You play as a knight trapped inside an enemy fortress after your army retreats. Fight your way out for survival.
+You play as a knight trapped inside an enemy fortress after your army retreats. Fight your way out for survival. The game is also on the [itch.io](https://superdupersmartguy.itch.io/iron-and-honor) platform.
 
 ## 🛠 Requirements
 

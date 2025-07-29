@@ -8,12 +8,12 @@ unit_pool = {
     "red_army":  ["spear"] * 1 + ["sword"] * 1 + ["knight"] * 1 + ["halberd"] * 1,
     "forest":  ["ambush_archer"] * 1 + ["ambush_sword"] * 1 + ["ambush_dagger"] * 1,    # Only for blue
     "field":     ["spear"] * 1 + ["sword"] * 1 + ["ambush_archer"] * 1 + ["peasant"] * 10,        # add peasant
-    "wall":  ["spear"] * 2 + ["archer"] * 2 + ["sword"] * 1 + ["knight"] * 1,
-    "hard":    ["spear"] * 2 + ["sword"] * 2 + ["knight"] * 1 + ["mace"] * 1,
-    "very_hard":    ["knight"] * 3 + ["mace"] * 3 + ["flail"] * 1 + ["axe"] * 1        # Only for blue
+    "wall":  ["spear"] * 1 + ["archer"] * 3 + ["sword"] * 1 + ["halberd"] * 1,
+    "wall2":  ["spear"] * 2 + ["sword"] * 2 + ["halberd"] * 2 + ["knight"] * 1 + ["mace"] * 1,
+    "wall3":    ["knight"] * 3 + ["mace"] * 3 + ["flail"] * 1 + ["axe"] * 1        # Only for blue
 }
 
-def generate_random_army(color, num_soldiers, difficulty, base_location=None, location_range:tuple[int, int]=None):
+def generate_random_army(color, num_soldiers, difficulty, base_location=None, location_range:tuple[int, int]=None, set_location:list[int]=None):
     """
     Generate a list of Soldier objects based on army parameters.
 
@@ -29,15 +29,16 @@ def generate_random_army(color, num_soldiers, difficulty, base_location=None, lo
 
     # Define unit types with weighted probabilities based on difficulty
     units = []
-    spacing_range = 80  # Random spacing between units
 
     for i in range(num_soldiers):
         unit_type = random.choice(unit_pool[difficulty])
 
         if location_range is not None:
             x_offset = random.randint(*location_range)
-        else:
-            x_offset = base_location + i * spacing_range + random.randint(-15, 15)
+        elif set_location is not None:
+            x_offset = set_location[random.randint(0, len(set_location) - 1)] + random.randint(-20, 20)
+        else: 
+            x_offset = base_location + random.randint(-100 - 10 * num_soldiers, 100 + 10 * num_soldiers)
 
         unit = Soldier(
             color=color,

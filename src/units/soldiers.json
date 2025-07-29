@@ -78,7 +78,33 @@
         "attack_damage": 5
     },
     "archer": {
-        "actions": {}
+        "actions": {
+            "walk_left": {
+                "num_frames": 9,
+                "frame_width": 128,
+                "frame_height": 128,
+                "row": 56.5
+            },
+            "walk_right": {
+                "num_frames": 9,
+                "frame_width": 128,
+                "frame_height": 128,
+                "row": 60.5
+            },
+            "hit_left": {
+                "num_frames": 13,
+                "frame_width": 64,
+                "frame_height": 64,
+                "row": 17
+            },
+            "hit_right": {
+                "num_frames": 13,
+                "frame_width": 64,
+                "frame_height": 64,
+                "row": 19
+            }
+        },
+        "attack_damage": 10
     },
     "knight": {
         "actions": {
@@ -167,13 +193,73 @@
         "attack_damage": 5
     },
     "flail": {
-        "actions": {}
+        "actions": {
+            "idle": {
+                "num_frames": 1,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 61
+            },
+            "hit_left": {
+                "num_frames": 6,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 58
+            },
+            "hit_right": {
+                "num_frames": 6,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 64
+            }
+        }, 
+        "attack_damage": 30
     },
     "axe": {
-        "actions": {}
+        "actions": {
+            "idle": {
+                "num_frames": 1,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 61
+            },
+            "hit_left": {
+                "num_frames": 6,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 58
+            },
+            "hit_right": {
+                "num_frames": 6,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 64
+            }
+        }, 
+        "attack_damage": 30
     },
     "mace": {
-        "actions": {}  
+        "actions": {
+            "idle": {
+                "num_frames": 1,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 61
+            },
+            "hit_left": {
+                "num_frames": 6,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 58
+            },
+            "hit_right": {
+                "num_frames": 6,
+                "frame_width": 192,
+                "frame_height": 192,
+                "row": 64
+            }
+        }, 
+        "attack_damage": 20
     },
     "halberd": {
         "actions": {

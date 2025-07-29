@@ -113,6 +113,7 @@ class Soldier (BaseUnit):
                 self.animate("hit_left")
 
     def init_die(self):
+        self.active = False
         self.dead = True
         self.animate("dying")
     
